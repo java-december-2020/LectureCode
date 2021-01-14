@@ -12,7 +12,7 @@
 <body>
 <div class="container">
 <h1>Welcome to Dogs dot Com</h1>
-<a href="/add">Add Dog To Database</a>
+<a href="/add">Add Dog To Database</a> | <a href="/toys/new">Gift a Toy!</a>
 <table class="table table-dark">
 <thead>
 <tr>

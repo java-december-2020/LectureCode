@@ -21,6 +21,15 @@
 <p>${dog.name}</p>
 <h3>Breed:</h3>
 <p>${dog.breed }</p>
+
+<h2>Toys</h2>
+<ol>
+<c:forEach items="${dog.toys }" var="toy">
+	<li>${toy.name} - ${toy.description} (${toy.price })</li>
+</c:forEach>
+
+</ol>
+
 <c:choose>
 <c:when test="${dog.tag != null }">
 <h3>City:</h3>
