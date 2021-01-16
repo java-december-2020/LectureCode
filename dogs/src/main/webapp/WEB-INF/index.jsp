@@ -12,23 +12,40 @@
 <body>
 <div class="container">
 <h1>Welcome to Dogs dot Com</h1>
+<h2>Welcome ${user.firstName }</h2>
 <a href="/add">Add Dog To Database</a> | <a href="/toys/new">Gift a Toy!</a>
 <table class="table table-dark">
 <thead>
 <tr>
-<th>Id</th>
+<th>Action</th>
 <th>Name</th>
 <th>Breed</th>
 <th>Age</th>
 <th>Registered</th>
+<th># of likes</th>
 </tr>
 </thead>
 <tbody>
 
 <c:forEach items="${allDogs}" var="dog">
 <tr>
-<td>${dog.id }</td>
-<td><a href="/${dog.id}">${dog.name }</a></td>
+
+<td>
+<c:choose>
+<c:when test="${dog.likers.contains(user) }">
+<a href="/unlike/${dog.id}">Un-Like</a>
+</c:when>
+<c:otherwise>
+<a href="/like/${dog.id}">Like</a>
+</c:otherwise>
+</c:choose>
+</td>
+<td>
+
+<a href="/${dog.id}">${dog.name }</a>
+</td>
+
+
 <td>${dog.breed }</td>
 <td>${dog.age }</td>
 <td>
@@ -41,6 +58,7 @@ Not Registered
 </c:otherwise>
 </c:choose>
 </td>
+<td> ${dog.likers.size()}</td>
 </tr>
 </c:forEach>
 

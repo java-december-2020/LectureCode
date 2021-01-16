@@ -1,5 +1,7 @@
 package com.matthew.dogs.models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -22,6 +25,10 @@ public class Toy {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="dog_id")
 	private Dog dog;
+	
+	
+	@OneToMany(mappedBy="toy", fetch=FetchType.LAZY)
+	private List<Rating> ratings;
 	
 	public Toy() {
 

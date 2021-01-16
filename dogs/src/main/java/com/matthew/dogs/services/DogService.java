@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.matthew.dogs.models.Dog;
+import com.matthew.dogs.models.User;
 import com.matthew.dogs.repositories.DogRepository;
 
 @Service
@@ -47,5 +48,25 @@ public class DogService {
 	// Delete
 	public void deleteDog(Long id) {
 		this.dRepo.deleteById(id);
+	}
+	
+	// Add Liker To Database
+	public void addLiker(User user, Dog dog) {
+	// Get The List From the Dog Object
+		List<User> likers = dog.getLikers();
+	// Add the Liker
+		likers.add(user);
+	// Update The Database
+		this.dRepo.save(dog);
+	}
+	
+	// Add Liker To Database
+	public void removeLiker(User user, Dog dog) {
+	// Get The List From the Dog Object
+		List<User> likers = dog.getLikers();
+	// Remove the Liker
+		likers.remove(user);
+	// Update The Database
+		this.dRepo.save(dog);
 	}
 }

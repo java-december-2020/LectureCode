@@ -3,6 +3,7 @@ package com.matthew.dogs.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.matthew.dogs.models.Dog;
 import com.matthew.dogs.models.Toy;
 import com.matthew.dogs.repositories.ToyRepository;
 
@@ -14,5 +15,10 @@ public class ToyService {
 	// Create
 	public Toy create(Toy toy) {
 		return this.tRepo.save(toy);
+	}
+	
+	// Read
+	public Toy getSingleToy(Long id) {
+		return this.tRepo.findById(id).orElse(null);
 	}
 }

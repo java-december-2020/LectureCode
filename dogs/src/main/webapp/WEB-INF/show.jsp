@@ -21,11 +21,34 @@
 <p>${dog.name}</p>
 <h3>Breed:</h3>
 <p>${dog.breed }</p>
+<h3>Liked By:</h3>
+<c:choose>
+<c:when test="${dog.likers == null }">
+<p>No likes, yet!</p>
+</c:when>
+<c:otherwise>
+<ol>
+<c:forEach items="${dog.likers}" var="user">
+<li>${user.firstName} ${user.lastName}
+</c:forEach>
+</ol>
+</c:otherwise>
+</c:choose>
+
 
 <h2>Toys</h2>
 <ol>
 <c:forEach items="${dog.toys }" var="toy">
 	<li>${toy.name} - ${toy.description} (${toy.price })</li>
+	<h1>Rate This Toy</h1>
+	<form:form method="POST" action="/toys/rate/${toy.id}" modelAttribute="rating">
+	<p>
+		<form:label path="rating">Leave A Rating (1-10)
+		<form:input path="rating"/></form:label>
+	</p>
+	<input type="submit" value="Rate!">
+	
+	</form:form>
 </c:forEach>
 
 </ol>
