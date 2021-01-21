@@ -24,6 +24,7 @@ import com.matthew.dogs.models.User;
 import com.matthew.dogs.services.DogService;
 import com.matthew.dogs.services.TagService;
 import com.matthew.dogs.services.UserService;
+import com.matthew.dogs.validators.UserValidator;
 
 @Controller
 public class DogController {
@@ -33,27 +34,50 @@ public class DogController {
 	private TagService tService;
 	@Autowired
 	private UserService uService;
+	@Autowired
+	private UserValidator validator;
 	
 	
 	@GetMapping("/")
-	public String login(Model viewModel) {
-		List<User> users = this.uService.allUsers();
-		viewModel.addAttribute("users", users);
+	public String login(@ModelAttribute("user") User user) {
 		return "landing.jsp";
 	}
 	
-	@PostMapping("/login")
-	public String login(@RequestParam("userToLogin") Long id, HttpSession session, Model viewModel) {
-		if(session.getAttribute("user_id") == null) {
-			session.setAttribute("user_id", id);
+	@PostMapping("/register")
+	public String register(@Valid @ModelAttribute("user") User user, BindingResult result, HttpSession session) {
+		validator.validate(user, result);
+		if(result.hasErrors()) {
+			return "landing.jsp";
 		}
+		User newUser = this.uService.registerUser(user);
+		session.setAttribute("user_id", newUser.getId());
 		return "redirect:/dashboard";
+	}
+	
+	@PostMapping("/login")
+	public String login(@RequestParam("loginEmail") String email, @RequestParam("loginPassword") String password, RedirectAttributes redirectAttrs, HttpSession session) {
+		if(!this.uService.authenticateUser(email, password)) {
+			redirectAttrs.addFlashAttribute("loginError", "Invalid Credentials");
+			return "redirect:/";
+		}
+		
+		User user = this.uService.getByEmail(email);
+		session.setAttribute("user_id", user.getId());
+		return "redirect:/dashboard";
+	}
+	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
 	}
 	
 	@GetMapping("/dashboard")
 	public String index(Model viewModel, HttpSession session) {
 		Long userId = (Long)session.getAttribute("user_id");
-		System.out.println(userId);
+		if(userId == null) {
+			return "redirect:/";
+		}
 		User user = this.uService.findOneUser(userId);
 		List<Dog> allDogs = this.dService.getAllDogs();
 		viewModel.addAttribute("allDogs", allDogs);

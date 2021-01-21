@@ -13,7 +13,7 @@
 <div class="container">
 <h1>Welcome to Dogs dot Com</h1>
 <h2>Welcome ${user.firstName }</h2>
-<a href="/add">Add Dog To Database</a> | <a href="/toys/new">Gift a Toy!</a>
+<a href="/add">Add Dog To Database</a> | <a href="/toys/new">Gift a Toy!</a> | <a href="/logout">Logout</a>
 <table class="table table-dark">
 <thead>
 <tr>
