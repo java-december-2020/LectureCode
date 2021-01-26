@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
@@ -38,6 +39,10 @@ public class Dog {
 	private String breed;
 	@NotNull
 	private int age;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="user_id")
+	private User owner;
 	
 	// Many To Many
 	@ManyToMany
@@ -154,6 +159,14 @@ public class Dog {
 
 	public void setLikers(List<User> likers) {
 		this.likers = likers;
+	}
+
+	public User getOwner() {
+		return owner;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
 	}
 	
 	

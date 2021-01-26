@@ -66,6 +66,12 @@ public class DogController {
 		return "redirect:/dashboard";
 	}
 	
+	@GetMapping("/user/{id}")
+	public String userProfile(@PathVariable("id") Long id, Model viewModel) {
+		viewModel.addAttribute("user", this.uService.findOneUser(id));
+		return "profile.jsp";
+	}
+	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
@@ -92,17 +98,22 @@ public class DogController {
 	
 	
 	@PostMapping("/addNewDog")
-	public String addNewDog(@Valid @ModelAttribute("dog") Dog dog, BindingResult result) {
+	public String addNewDog(@Valid @ModelAttribute("dog") Dog dog, BindingResult result, HttpSession session) {
 		if(result.hasErrors()) {
 			return "add.jsp";
 		}
+		Long userId = (Long)session.getAttribute("user_id");
+		User userOwnerObject = this.uService.findOneUser(userId);
+		dog.setOwner(userOwnerObject);
 		this.dService.createDog(dog);
 		return "redirect:/";
 	}
 	
 	@GetMapping("/{id}")
-	public String show(@PathVariable("id") Long id, Model viewModel, @ModelAttribute("tag") Tag tag, @ModelAttribute("dog") Dog dog, @ModelAttribute("rating") Rating rating) {
+	public String show(@PathVariable("id") Long id, Model viewModel, @ModelAttribute("tag") Tag tag, @ModelAttribute("dog") Dog dog, @ModelAttribute("rating") Rating rating, HttpSession session) {
+		Long userId = (Long)session.getAttribute("user_id");
 		viewModel.addAttribute("dog", this.dService.getSingleDog(id));
+		viewModel.addAttribute("user", this.uService.findOneUser(userId));
 		return "show.jsp";
 	}
 	

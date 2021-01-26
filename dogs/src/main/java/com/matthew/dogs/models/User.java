@@ -3,6 +3,7 @@ package com.matthew.dogs.models;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -40,6 +41,9 @@ public class User {
 	
 	@OneToMany(mappedBy="user", fetch=FetchType.LAZY)
 	private List<Rating> ratings;
+	
+	@OneToMany(mappedBy="owner", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	private List<Dog> dogs;
 	
 	@ManyToMany
 	@JoinTable(
@@ -110,6 +114,14 @@ public class User {
 
 	public void setRatings(List<Rating> ratings) {
 		this.ratings = ratings;
+	}
+
+	public List<Dog> getDogs() {
+		return dogs;
+	}
+
+	public void setDogs(List<Dog> dogs) {
+		this.dogs = dogs;
 	}
 	
 }

@@ -16,7 +16,8 @@
 <div class="container">
 <h1>Details For ${dog.name}</h1>
 <hr>
-
+<h3>Owner:</h3>
+<a href="/user/${user.id}">${dog.owner.firstName}</a></p>
 <h3>Name:</h3>
 <p>${dog.name}</p>
 <h3>Breed:</h3>
@@ -80,6 +81,7 @@
 </c:choose>
 <form method="post" action="/edit/${dog.id}">
 <hr>
+<c:if test="${dog.owner.id == user.id}">
 <h2>Edit Dog</h2>
 <form:form method="POST" action="/addNewDog" modelAttribute="dog">
 <div class="form-group">
@@ -99,8 +101,9 @@
 </div>
 <button>Update Dog Details</button>
 </form:form>
-
+</c:if>
 </form>
+
 </div>
 </body>
 </html>

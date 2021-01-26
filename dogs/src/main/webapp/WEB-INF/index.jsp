@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,9 +13,9 @@
 </head>
 <body>
 <div class="container">
-<h1>Welcome to Dogs dot Com</h1>
-<h2>Welcome ${user.firstName }</h2>
-<a href="/add">Add Dog To Database</a> | <a href="/toys/new">Gift a Toy!</a> | <a href="/logout">Logout</a>
+<t:wrapper>
+
+</t:wrapper>
 <table class="table table-dark">
 <thead>
 <tr>
